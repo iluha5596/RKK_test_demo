@@ -1,14 +1,15 @@
 import time
+from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from locators.select_configure_locators import SelectConfigureLocators
 
 
 class SelectConfigure(BasePage):
 
-    def choose_privilege_credit_card_installment(self):
-        self.element_is_clickable(*SelectConfigureLocators.PRIVILEGE_CREDIT_CARD_INSTALLMENT, timeout=60)
-        privilege_credit_card_installment = self.driver.find_element(
-            *SelectConfigureLocators.PRIVILEGE_CREDIT_CARD_INSTALLMENT)
+    def choose_tariff(self, tariff):
+        tariff_locator = SelectConfigureLocators.TARIFF[1].format(tariff)
+        self.element_is_clickable(By.XPATH, tariff_locator, timeout=60)
+        privilege_credit_card_installment = self.driver.find_element(By.XPATH, tariff_locator)
         self.driver.execute_script('arguments[0].click();', privilege_credit_card_installment)
 
     def choose_transition_decision_making(self):

@@ -67,3 +67,4 @@ class ShortFormPage(BasePage):
         self.element_is_clickable(*ShortFormLocators.BUTTON_FILE_CONSENT_UNLOAD)
         button_go_full_form = self.driver.find_element(*ShortFormLocators.BUTTON_NEXT_FORM)
         button_go_full_form.click()
+        self.driver.refresh()

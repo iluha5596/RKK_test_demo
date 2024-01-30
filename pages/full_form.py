@@ -88,16 +88,18 @@ class FullForm(BasePage):
         employer_phone = self.driver.find_element(*FullFormLocators.EMPLOYER_PHONE)
         self.driver.execute_script("arguments[0].value = arguments[1];", employer_phone, data_full_form_phone)
         employer_phone.send_keys(data_full_form_phone, Keys.RETURN)
+        self.visibility_of_element_located(*FullFormLocators.MESSAGE_ADDING_PHONE)
 
     def full_app_next_form(self):
         # Далее
         employer_address = self.driver.find_element(*FullFormLocators.EMPLOYER_ADDRESS)
         full_app_next_btn = self.driver.find_element(*FullFormLocators.FULL_APP_NEXT_BTN)
 
-        if employer_address.get_attribute('value') != '' and self.visibility_of_element_located(*FullFormLocators.MESSAGE_ADDING_PHONE):
+        if employer_address.get_attribute('value') != '':
             full_app_next_btn.click()
         else:
             time.sleep(2)
             full_app_next_btn.click()
+        self.driver.refresh()
 
 

@@ -43,6 +43,8 @@ def base_url(request):
         return 'https://rkk-t2.dev.zenit.ru'
     elif base_url == 't4':
         return 'https://rkk-t4.dev.zenit.ru'
+    elif base_url == 'dev':
+        return 'https://rkk.dev.zenit.ru'
     # Если значение base_url не соответствует ни одному условию, вернёт текст ошибки
     else:
         raise pytest.UsageError('Укажите base_url пример --base_url=t2')
