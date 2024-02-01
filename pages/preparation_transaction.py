@@ -133,15 +133,14 @@ class PreparationTransaction(BasePage):
         save_codeword = self.find_element(*PreparationTransactionLocators.SAVE_CODEWORD)
         action_chains = ActionChains(self.driver)
         action_chains.move_to_element(save_codeword).click().perform()
-        # self.driver.execute_script('arguments[0].click();', save_codeword)
-        # save_codeword.click()
-        print('Нажатие на сохранить')
         self.invisibility_of_element_located(*PreparationTransactionLocators.SAVE_CODEWORD)
 
     def preparation_transaction_next_form(self):
         self.element_is_clickable(*PreparationTransactionLocators.BUTTON_NEXT)
         button_next = self.find_element(*PreparationTransactionLocators.BUTTON_NEXT)
         button_next.click()
+        self.element_is_not_clickable(*PreparationTransactionLocators.BUTTON_NEXT)
+        # self.driver.refresh()
 
 
 

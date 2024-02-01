@@ -16,4 +16,6 @@ class ShortFormLocators:
     BUTTON_FILE_PASSPORT_UNLOAD = (By.XPATH, '//div[@class="p-col-12  group-shadow"]//div[@class="p-buttonset"]')
     BUTTON_FILE_PHOTO_UNLOAD = (By.XPATH, '(//div[@class="p-fluid p-grid p-align-stretch "]//div[@class="p-buttonset"])[2]')
     APPLICATION_NUMBER = (By.XPATH, '//label[text()="Номер заявки:"]/../..//a')
+    ERROR = (By.XPATH, '//div[@class="p-grid p-justify-center error"]')
+    EXIT_ERROR = (By.XPATH, '//span[text()="Закрыть"]')
 

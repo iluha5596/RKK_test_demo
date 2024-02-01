@@ -100,6 +100,7 @@ class FullForm(BasePage):
         else:
             time.sleep(2)
             full_app_next_btn.click()
+
         self.driver.refresh()
 
 

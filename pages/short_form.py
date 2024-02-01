@@ -60,6 +60,7 @@ class ShortFormPage(BasePage):
         button_file_consent.send_keys(document_download)
 
     def determine_application_number(self):
+        self.visibility_of_element_located(*ShortFormLocators.APPLICATION_NUMBER)
         number_app = (self.driver.find_element(*ShortFormLocators.APPLICATION_NUMBER)).text
         return number_app
 
@@ -67,4 +68,3 @@ class ShortFormPage(BasePage):
         self.element_is_clickable(*ShortFormLocators.BUTTON_FILE_CONSENT_UNLOAD)
         button_go_full_form = self.driver.find_element(*ShortFormLocators.BUTTON_NEXT_FORM)
         button_go_full_form.click()
-        self.driver.refresh()

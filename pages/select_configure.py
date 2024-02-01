@@ -21,6 +21,6 @@ class SelectConfigure(BasePage):
         self.element_is_clickable(*SelectConfigureLocators.BUTTON_NEXT)
         button_next = self.driver.find_element(*SelectConfigureLocators.BUTTON_NEXT)
         button_next.click()
-        self.element_is_not_clickable(*SelectConfigureLocators.BUTTON_NEXT)
-        self.driver.refresh()
+        self.element_is_not_clickable(*SelectConfigureLocators.BUTTON_NEXT, timeout=20)
+        # self.driver.refresh()
 

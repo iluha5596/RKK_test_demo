@@ -1,4 +1,3 @@
-import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -20,6 +19,7 @@ def driver(request):
 
     if browser_name == 'chrome':
         options = ChromeOptions()
+        # options.headless = True
         driver = webdriver.Chrome(options=options)
         driver.maximize_window()
     elif browser_name == 'firefox':
@@ -45,6 +45,8 @@ def base_url(request):
         return 'https://rkk-t4.dev.zenit.ru'
     elif base_url == 'dev':
         return 'https://rkk.dev.zenit.ru'
+    elif base_url == 'demo':
+        return 'https://rkk-demo.dev.zenit.ru'
     # Если значение base_url не соответствует ни одному условию, вернёт текст ошибки
     else:
         raise pytest.UsageError('Укажите base_url пример --base_url=t2')

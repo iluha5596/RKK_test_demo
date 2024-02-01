@@ -1,7 +1,7 @@
 import time
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchWindowException
 from selenium.webdriver.support.ui import WebDriverWait
 from locators.basa_page_locators import BasePageLocators
 
@@ -18,6 +18,9 @@ class BasePage(object):
 
     def find_element(self, how, what):
         return self.driver.find_element(how, what)
+
+    def find_elements(self, how, what):
+        return self.driver.find_elements(how, what)
 
     def element_is_clickable(self, how, what, timeout=10):
         try:
@@ -69,14 +72,30 @@ class BasePage(object):
         self.driver.close()  # Закрытие окна
         self.driver.switch_to.window(main_window_handle)  # переключение на основное окно
 
+    def close_new_windows(self):
+        # Получаем текущее количество окон
+        main_window_handle = self.driver.current_window_handle
+        time.sleep(30)
+        # Получаем все окна
+        all_windows = self.driver.window_handles
+        # Закрываем новые окна и переключаемся обратно на основное окно
+        for window in all_windows:
+            try:
+                self.driver.switch_to.window(window)
+                self.driver.execute_script("window.close();")
+            except NoSuchWindowException:
+                # Пропускаем закрытое окно и переходим к следующему
+                continue
+        # Переключаемся обратно на основное окно
+        self.driver.switch_to.window(main_window_handle)
+
     def go_task_list(self):
         self.element_is_clickable(*BasePageLocators.TASK_LIST)
         task_list = self.driver.find_element(*BasePageLocators.TASK_LIST)
         task_list.click()
 
     def go_application_list(self):
-        self.visibility_of_element_located(*BasePageLocators.APPLICATION_LIST, timeout=30)
-        self.element_is_clickable(*BasePageLocators.APPLICATION_LIST, timeout=30)
+        self.element_is_clickable(*BasePageLocators.APPLICATION_LIST, timeout=180)
         application_list = self.driver.find_element(*BasePageLocators.APPLICATION_LIST)
         application_list.click()
 
