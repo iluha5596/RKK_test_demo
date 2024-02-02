@@ -137,7 +137,7 @@ class TestCFTMethod:
     #     my_task_page = MyTask(driver)
     #     my_task_page.go_task(number_app=number_app)
 
-    def test_installment_box_cc(self, driver):
+    def test_tariff_installment_and_2box(self, driver):
         passage_preparation_transaction = PassTask()
         passage_preparation_transaction.passage_preparation_transaction(driver=driver,
                                                                         tariff='«Кредитная «Карта Привилегий» (Рассрочка)')
