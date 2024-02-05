@@ -6,12 +6,12 @@ from pages.application import Application
 from pages.application_list import ApplicationList
 from pages.short_form import ShortFormPage
 from pages.base_page import BasePage
-from pages.my_task import MyTask
 from pages.full_form import FullForm
 from pages.select_configure import SelectConfigure
 from pages.notify_client import NotifyClient
 from pages.preparation_transaction import PreparationTransaction
 from pages.sign_agreement_client import SignAgreementClient
+from db.assert_db import AssertDB
 
 
 class PassTask:
@@ -109,17 +109,17 @@ class PassTask:
 
 class TestCFTMethod:
 
-    @pytest.fixture(scope="function", autouse=True)
-    def setup(self, driver, base_url, path):
-        base_url = base_url
-        path = path
-        url = f'{base_url}{path}'
-        login_page = LoginPage(driver, url)
-        login_page.open()
-        # Авторизация
-        login = config('LOGIN_CM_25')
-        password = config('PASSWORD_CM_25')
-        login_page.authorization(login=login, password=password)
+    # @pytest.fixture(scope="function", autouse=True)
+    # def setup(self, driver, base_url, path):
+    #     base_url = base_url
+    #     path = path
+    #     url = f'{base_url}{path}'
+    #     login_page = LoginPage(driver, url)
+    #     login_page.open()
+    #     # Авторизация
+    #     login = config('LOGIN_CM_25')
+    #     password = config('PASSWORD_CM_25')
+    #     login_page.authorization(login=login, password=password)
 
     # @pytest.fixture(scope="function", autouse=True)
     # def setup(self, driver, base_url, path):
@@ -139,10 +139,12 @@ class TestCFTMethod:
 
     def test_tariff_installment_and_2box(self, driver):
         passage_preparation_transaction = PassTask()
-        passage_preparation_transaction.passage_preparation_transaction(driver=driver,
-                                                                        tariff='«Кредитная «Карта Привилегий» (Рассрочка)')
-        passage_preparation_transaction.fill_preparation_transaction_cc(driver=driver)
-        passage_preparation_transaction.fill_sign_agreement_client(driver=driver)
+        assert_db = AssertDB()
+        # passage_preparation_transaction.passage_preparation_transaction(driver=driver,
+        #                                                                 tariff='«Кредитная «Карта Привилегий» (Рассрочка)')
+        # passage_preparation_transaction.fill_preparation_transaction_cc(driver=driver)
+        # passage_preparation_transaction.fill_sign_agreement_client(driver=driver)
+        assert_db.assert_db_for_tariff_installment_and_2box(application_id=111210)
         time.sleep(20)
 
 

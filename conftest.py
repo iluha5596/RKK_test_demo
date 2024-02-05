@@ -38,7 +38,7 @@ def base_url(request):
     base_url = request.config.getoption('base_url')
 
     if base_url == 't1':
-        return 'https://rkk-t1.dev.zenit.ru'
+        return ['https://rkk-t1.dev.zenit.ru']
     elif base_url == 't2':
         return 'https://rkk-t2.dev.zenit.ru'
     elif base_url == 't4':

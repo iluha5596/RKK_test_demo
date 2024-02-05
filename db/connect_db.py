@@ -15,6 +15,8 @@ class ConnectDB:
         db_username = config('DB_USERNAME')
         db_password = config('DB_PASSWORD')
 
+        print(db_database)
+
         try:
             connection = psycopg2.connect(
                 user=db_username,
@@ -24,7 +26,9 @@ class ConnectDB:
                 database=db_database
             )
             self.connection = connection
-            return connection
             print("Соединение с PostgreSQL установлено")
+            return connection
         except Exception as error:
             print(f"Ошибка при подключении к PostgreSQL: {error}")
+
+

@@ -28,6 +28,11 @@ class SelectDB:
                             f"WHERE application_id = {application_id} " \
                             f"AND es.source = '{source}'"
 
+    def select_account_number(self, application_id=None):
+        self.select_query = f"select account_number from issue_terms " \
+                            f"where application_id = {application_id} " \
+                            f"and is_actual "
+
     def select_client(self, application_id):
         self.select_query = f"select * " \
                             f"from client c " \
