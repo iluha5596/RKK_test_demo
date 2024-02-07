@@ -1,9 +1,7 @@
 import json
-import time
 from datetime import datetime
 import os
 from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from locators.preparation_transaction_locators import PreparationTransactionLocators
 from selenium.webdriver.common.action_chains import ActionChains
@@ -140,7 +138,6 @@ class PreparationTransaction(BasePage):
         button_next = self.find_element(*PreparationTransactionLocators.BUTTON_NEXT)
         button_next.click()
         self.element_is_not_clickable(*PreparationTransactionLocators.BUTTON_NEXT)
-        # self.driver.refresh()
 
 
 

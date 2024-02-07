@@ -2,7 +2,6 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchWindowException
-from selenium.webdriver.support.ui import WebDriverWait
 from locators.basa_page_locators import BasePageLocators
 
 

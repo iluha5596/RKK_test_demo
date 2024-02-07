@@ -1,6 +1,5 @@
 from pages.base_page import BasePage
 from locators.application_locators import ApplicationLocators
-from selenium.common.exceptions import NoSuchElementException
 
 
 class Application(BasePage):

@@ -21,9 +21,9 @@ class PassTask:
     def fill_required_fields_short_form(self, driver):
         # Заполнение обязательных полей на задаче Короткая анкета
         short_form_page = ShortFormPage(driver)
-        self.number_app = short_form_page.determine_application_number()
+        number_app = short_form_page.determine_application_number()
         global application_id
-        application_id = self.number_app
+        application_id = number_app
         short_form_page.filling_short_form()
         short_form_page.generate_documents()
         short_form_page.modal_window_generate_documents()

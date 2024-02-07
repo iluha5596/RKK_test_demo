@@ -40,9 +40,6 @@ class SignAgreementClient(BasePage):
     def sign_agreement_client_next(self):
         self.element_is_clickable(*SignAgreementClientLocators.BUTTON_NEXT)
         button_next = self.find_element(*SignAgreementClientLocators.BUTTON_NEXT)
-        # added_documents = self.find_elements(*SignAgreementClientLocators.ADDED_DOCUMENTS)
-        # input_documents = self.find_elements(*SignAgreementClientLocators.INPUT_DOCUMENTS)
-        # print(f'Количество добавленных документов: {len(added_documents)}, количество инпутов для документов: {len(input_documents)}')
         button_next.click()
 
 
