@@ -12,7 +12,9 @@ from pages.notify_client import NotifyClient
 from pages.preparation_transaction import PreparationTransaction
 from pages.sign_agreement_client import SignAgreementClient
 from db.assert_db import AssertDB
+from pages.my_task import MyTask
 
+application_id = None
 
 class PassTask:
 
@@ -20,6 +22,8 @@ class PassTask:
         # Заполнение обязательных полей на задаче Короткая анкета
         short_form_page = ShortFormPage(driver)
         self.number_app = short_form_page.determine_application_number()
+        global application_id
+        application_id = self.number_app
         short_form_page.filling_short_form()
         short_form_page.generate_documents()
         short_form_page.modal_window_generate_documents()
@@ -27,7 +31,7 @@ class PassTask:
         base_page.close_new_window()
         short_form_page.attach_client_consent_file()
         short_form_page.next_form()
-        print(self.number_app)
+        print(application_id)
 
     def fill_required_fields_full_form(self, driver):
         # Заполнение обязательных полей на полной форме
@@ -54,7 +58,7 @@ class PassTask:
         base_page.go_application_list()
         # Поиск заявки
         application_list_page = ApplicationList(driver)
-        number_app = self.number_app
+        number_app = application_id
         application_list_page.search_application(number_app=number_app)
 
     def take_on_job_task(self, driver):
@@ -80,6 +84,7 @@ class PassTask:
         self.take_on_job_task(driver)
 
     def fill_preparation_transaction_cc(self, driver):
+        # Заполнение задачи Подготовка к сделке для тарифа с рассрочкой и двумя коробками
         preparation_transaction_page = PreparationTransaction(driver)
         preparation_transaction_page.go_product()
         preparation_transaction_page.on_box()
@@ -109,44 +114,43 @@ class PassTask:
 
 class TestCFTMethod:
 
-    # @pytest.fixture(scope="function", autouse=True)
-    # def setup(self, driver, base_url, path):
-    #     base_url = base_url
-    #     path = path
-    #     url = f'{base_url}{path}'
-    #     login_page = LoginPage(driver, url)
-    #     login_page.open()
-    #     # Авторизация
-    #     login = config('LOGIN_CM_25')
-    #     password = config('PASSWORD_CM_25')
-    #     login_page.authorization(login=login, password=password)
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, driver, base_url, path):
+        base_url = base_url
+        path = path
+        url = f'{base_url[0]}{path}'
+        login_page = LoginPage(driver, url)
+        login_page.open()
+        # Авторизация
+        login = config('LOGIN_CM_25')
+        password = config('PASSWORD_CM_25')
+        login_page.authorization(login=login, password=password)
 
     # @pytest.fixture(scope="function", autouse=True)
     # def setup(self, driver, base_url, path):
     #     base_url = base_url
     #     path = path
-    #     url = f'{base_url}{path}'
+    #     url = f'{base_url[0]}{path}'
     #     login_page = LoginPage(driver, url)
     #     login_page.open()
     #     # Авторизация
     #     login = config('LOGIN_CM_25')
     #     password = config('PASSWORD_CM_25')
     #     login_page.authorization(login=login, password=password)
-    #     number_app = 'П_00111210'
+    #     number_app = 'П_00111290'
     #     # Поиск задачи через Мои задачи
     #     my_task_page = MyTask(driver)
     #     my_task_page.go_task(number_app=number_app)
 
-    def test_tariff_installment_and_2box(self, driver):
+    def test_tariff_installment_and_2box(self, driver, base_url):
         passage_preparation_transaction = PassTask()
         assert_db = AssertDB()
-        # passage_preparation_transaction.passage_preparation_transaction(driver=driver,
-        #                                                                 tariff='«Кредитная «Карта Привилегий» (Рассрочка)')
-        # passage_preparation_transaction.fill_preparation_transaction_cc(driver=driver)
-        # passage_preparation_transaction.fill_sign_agreement_client(driver=driver)
-        assert_db.assert_db_for_tariff_installment_and_2box(application_id=111210)
-        time.sleep(20)
-
+        base_url = base_url
+        passage_preparation_transaction.passage_preparation_transaction(driver=driver,
+                                                                        tariff='«Кредитная «Карта Привилегий» (Рассрочка)')
+        passage_preparation_transaction.fill_preparation_transaction_cc(driver=driver)
+        passage_preparation_transaction.fill_sign_agreement_client(driver=driver)
+        assert_db.assert_db_for_tariff_installment_and_2box(base_url=base_url, application_id=application_id)
 
     # def test_preparation_transaction_cc(self, driver):
     #     preparation_transaction_cc_fill = PassTask()

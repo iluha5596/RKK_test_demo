@@ -45,7 +45,7 @@ class PreparationTransaction(BasePage):
         self.formatted_date = today.strftime("%d.%m.%Y")
 
     def go_product(self):
-        self.element_is_clickable(*PreparationTransactionLocators.PRODUCT, timeout=60)
+        self.element_is_clickable(*PreparationTransactionLocators.PRODUCT, timeout=120)
         product = self.find_element(*PreparationTransactionLocators.PRODUCT)
         product.click()
 

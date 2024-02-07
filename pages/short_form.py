@@ -1,6 +1,4 @@
 import os
-import time
-from selenium.common.exceptions import ElementClickInterceptedException, StaleElementReferenceException
 from locators.short_form_locators import ShortFormLocators
 from pages.base_page import BasePage
 import json

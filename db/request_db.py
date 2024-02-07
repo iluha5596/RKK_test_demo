@@ -6,9 +6,9 @@ class RequestDB(object):
     def __init__(self):
         self.result = None
 
-    def request(self, select_query):
+    def request(self, select_query, base_url):
         connect_db = ConnectDB()
-        connect_db.connect()
+        connect_db.connect(base_url=base_url)
         cursor = connect_db.connection.cursor()
         try:
             cursor.execute(select_query)

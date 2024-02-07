@@ -7,15 +7,13 @@ class ConnectDB:
     def __init__(self):
         self.connection = None
 
-    def connect(self):
+    def connect(self, base_url):
         # Выполнение подключения к БД
-        db_database = config('DB_DATABASE')
+        db_database = config(f'DB_DATABASE_{base_url[1]}')
         db_port = config('DB_PORT')
-        db_host = config('DB_HOST')
-        db_username = config('DB_USERNAME')
-        db_password = config('DB_PASSWORD')
-
-        print(db_database)
+        db_host = config(f'DB_HOST_{base_url[1]}')
+        db_username = config(f'DB_USERNAME_{base_url[1]}')
+        db_password = config(f'DB_PASSWORD_{base_url[1]}')
 
         try:
             connection = psycopg2.connect(

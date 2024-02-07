@@ -38,7 +38,7 @@ def base_url(request):
     base_url = request.config.getoption('base_url')
 
     if base_url == 't1':
-        return ['https://rkk-t1.dev.zenit.ru']
+        return ['https://rkk-t1.dev.zenit.ru', 'T1']
     elif base_url == 't2':
         return 'https://rkk-t2.dev.zenit.ru'
     elif base_url == 't4':
@@ -46,7 +46,7 @@ def base_url(request):
     elif base_url == 'dev':
         return 'https://rkk.dev.zenit.ru'
     elif base_url == 'demo':
-        return 'https://rkk-demo.dev.zenit.ru'
+        return ['https://rkk-demo.dev.zenit.ru', 'DEMO']
     # Если значение base_url не соответствует ни одному условию, вернёт текст ошибки
     else:
         raise pytest.UsageError('Укажите base_url пример --base_url=t2')

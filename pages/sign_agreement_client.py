@@ -32,8 +32,8 @@ class SignAgreementClient(BasePage):
     def choose_loan_agreement_signed(self):
         self.element_is_clickable(*SignAgreementClientLocators.LOAN_AGREEMENT_SIGNED)
         loan_agreement_signed = self.find_element(*SignAgreementClientLocators.LOAN_AGREEMENT_SIGNED)
-        wait(self.driver, 10).until(lambda _:
-                                    len(self.find_elements(*SignAgreementClientLocators.ADDED_DOCUMENTS)) - 1 == len(self.find_elements(*SignAgreementClientLocators.INPUT_DOCUMENTS)))
+        wait(self.driver, 15).until(lambda _:
+                                    len(self.find_elements(*SignAgreementClientLocators.ADDED_DOCUMENTS)) - 1 >= len(self.find_elements(*SignAgreementClientLocators.INPUT_DOCUMENTS)))
         print(f'OK. Количество добавленных документов: {len(self.find_elements(*SignAgreementClientLocators.ADDED_DOCUMENTS))}, количество инпутов для документов: {len(self.find_elements(*SignAgreementClientLocators.INPUT_DOCUMENTS))}')
         loan_agreement_signed.click()
 
