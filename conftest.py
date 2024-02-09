@@ -41,6 +41,8 @@ def base_url(request):
         return ['https://rkk-t1.dev.zenit.ru', 'T1']
     elif base_url == 't2':
         return 'https://rkk-t2.dev.zenit.ru'
+    elif base_url == 't3':
+        return 'https://rkk-t3.dev.zenit.ru'
     elif base_url == 't4':
         return 'https://rkk-t4.dev.zenit.ru'
     elif base_url == 'dev':

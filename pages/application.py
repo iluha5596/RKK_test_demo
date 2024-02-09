@@ -3,6 +3,13 @@ from locators.application_locators import ApplicationLocators
 
 
 class Application(BasePage):
+
+    def take_on_job_task(self):
+        # Взять в работоу задачу
+        self.check_hire_no_form()
+        self.expectation_task()
+        self.go_task()
+
     def go_task(self):
         self.element_is_clickable(*ApplicationLocators.BUTTON_TAKE_JOB)
         button_take_job = self.driver.find_element(*ApplicationLocators.BUTTON_TAKE_JOB)

@@ -68,54 +68,82 @@ class AssertDB(object):
 
     def wait_close_process(self, base_url, application_id):
         get_result_db = GetResultDB()
-        count_method_calls = get_result_db.request_count_method_calls(source='MG_SENDMESSAGE', base_url=base_url, application_id=application_id)
+        count_method_calls = get_result_db.request_count_method_calls(source='MG_SENDMESSAGE',
+                                                                      base_url=base_url,
+                                                                      application_id=application_id)
         while count_method_calls < 2:
-            count_method_calls = get_result_db.request_count_method_calls(source='MG_SENDMESSAGE', base_url=base_url, application_id=application_id)
-            print(f'Процесс ещё не завершился. Количество вызовов MG_SENDMESSAGE = {count_method_calls}, ожидается, что будет 2')
+            count_method_calls = get_result_db.request_count_method_calls(source='MG_SENDMESSAGE',
+                                                                          base_url=base_url,
+                                                                          application_id=application_id)
+            print('Процесс ещё не завершился')
             time.sleep(5)
-        print(f'Процесс завершился, можно делать проверки БД, MG_SENDMESSAGE = {count_method_calls}')
+        print('Процесс завершился, стартауют проверки БД')
 
     def assert_cft_updateaccount(self, base_url, application_id):
         get_result_db = GetResultDB()
         # Получаем значение transfer_account из ответа от метода CFT_CREATE_ACCOUNT
         compiler = re.compile(r'<ResValue>(.*?)</ResValue>', re.DOTALL)
-        transfer_account = get_result_db.res_value_create_account(source='CFT_CREATE_ACCOUNT', compiler=compiler, base_url=base_url, application_id=application_id)
+        transfer_account = get_result_db.res_value_create_account(source='CFT_CREATE_ACCOUNT',
+                                                                  compiler=compiler,
+                                                                  base_url=base_url,
+                                                                  application_id=application_id)
         # Получаем значение transfer_account из запроса в метод XBPM_CFT_UPDATEACCOUNT
         compiler = re.compile(r'<ns2:RECEIVER_ACC>(.*?)</ns2:RECEIVER_ACC>', re.DOTALL)
-        receiver_acc_updateaccount = get_result_db.external_source_request(source='XBPM_CFT_UPDATEACCOUNT', compiler=compiler, base_url=base_url, application_id=application_id)
+        receiver_acc_updateaccount = get_result_db.external_source_request(source='XBPM_CFT_UPDATEACCOUNT',
+                                                                           compiler=compiler,
+                                                                           base_url=base_url,
+                                                                           application_id=application_id)
         value_receiver_acc_updateaccount = ' '.join(receiver_acc_updateaccount)
-        assert transfer_account == value_receiver_acc_updateaccount, 'В XBPM_CFT_UPDATEACCOUNT передался ' \
-                                                                                   'не верный transfer_account'
+        assert transfer_account == value_receiver_acc_updateaccount, \
+            'В XBPM_CFT_UPDATEACCOUNT передался не верный transfer_account'
         self.transfer_account = transfer_account
 
     def assert_count_method_calls(self, base_url, application_id, count_calls=3):
         get_result_db = GetResultDB()
-        count_method_calls = get_result_db.request_count_method_calls(source='XBPM_CFT_TRANSFERCARD', base_url=base_url, application_id=application_id)
-        assert count_method_calls == count_calls, f"Метод XBPM_CFT_TRANSFERCARD должен был вызваться {count_calls} раз(а)," \
-                                                  f"по итогу вызвался {count_method_calls} раз(а)"
+        count_method_calls = get_result_db.request_count_method_calls(source='XBPM_CFT_TRANSFERCARD',
+                                                                      base_url=base_url,
+                                                                      application_id=application_id)
+        assert count_method_calls == count_calls, \
+            f"Метод XBPM_CFT_TRANSFERCARD должен был вызваться {count_calls} раз(а), по итогу вызвался {count_method_calls} раз(а)"
 
     def assert_transfer_installment(self, base_url, application_id):
         get_result_db = GetResultDB()
         compiler = re.compile(r'<ns2:DOC_TYPE>TRANSFER_INSTALLMENT</ns2:DOC_TYPE>.*?<ns2:SENDER_ACC>(.*?)</ns2:SENDER_ACC>', re.DOTALL)
-        sender_acc_transfer_card = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD', compiler=compiler, base_url=base_url, application_id=application_id)
+        sender_acc_transfer_card = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD',
+                                                                         compiler=compiler,
+                                                                         base_url=base_url,
+                                                                         application_id=application_id)
         value_sender_acc_transfer_card = ' '.join(sender_acc_transfer_card)
         account_number = get_result_db.account_number(base_url=base_url, application_id=application_id)
-        assert value_sender_acc_transfer_card == account_number, 'В XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался не верный SENDER_ACC (account_number)'
+        assert value_sender_acc_transfer_card == account_number, \
+            'В XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался не верный SENDER_ACC (account_number)'
         compiler = re.compile(r'<ns2:DOC_TYPE>TRANSFER_INSTALLMENT</ns2:DOC_TYPE>.*?<ns2:RECEIVER_ACC>(.*?)</ns2:RECEIVER_ACC>', re.DOTALL)
-        receiver_acc_transfer_card = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD', compiler=compiler, base_url=base_url, application_id=application_id)
+        receiver_acc_transfer_card = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD',
+                                                                           compiler=compiler,
+                                                                           base_url=base_url,
+                                                                           application_id=application_id)
         value_receiver_acc_transfer_card = ''.join(receiver_acc_transfer_card)
-        assert value_receiver_acc_transfer_card == self.transfer_account, 'В XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался не верный RECEIVER_ACC (transfer_account)'
+        assert value_receiver_acc_transfer_card == self.transfer_account, \
+            'В XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался не верный RECEIVER_ACC (transfer_account)'
 
     def assert_payment_box(self, base_url, application_id):
         get_result_db = GetResultDB()
         compiler = re.compile(r'<ns2:DOC_TYPE>PAYMENT_BOX</ns2:DOC_TYPE>.*?<ns2:SENDER_ACC>(.*?)</ns2:SENDER_ACC>', re.DOTALL)
-        sender_acc_payment_box = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD', compiler=compiler, base_url=base_url, application_id=application_id)
+        sender_acc_payment_box = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD',
+                                                                       compiler=compiler,
+                                                                       base_url=base_url,
+                                                                       application_id=application_id)
         for value_sender_acc_payment_box in sender_acc_payment_box:
-            assert value_sender_acc_payment_box == self.transfer_account, 'В XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX передался не верный SENDER_ACC (transfer_account)'
+            assert value_sender_acc_payment_box == self.transfer_account, \
+                'В XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX передался не верный SENDER_ACC (transfer_account)'
 
         compiler = re.compile(r'<ns2:DOC_TYPE>PAYMENT_BOX</ns2:DOC_TYPE>.*?<ns2:DESCRIPTION>(.*?)</ns2:DESCRIPTION>', re.DOTALL)
-        description_payment_box = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD', compiler=compiler, base_url=base_url, application_id=application_id)
+        description_payment_box = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD',
+                                                                        compiler=compiler,
+                                                                        base_url=base_url,
+                                                                        application_id=application_id)
         for i in range(len(description_payment_box)):
             for j in range(i+1, len(description_payment_box)):
-                assert description_payment_box[i] != description_payment_box[j], 'В XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX отправилось значение по одной и той же коробке, а должно было по двум'
+                assert description_payment_box[i] != description_payment_box[j], \
+                    'В XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX отправилось значение по одной и той же коробке, а должно было по двум'
 

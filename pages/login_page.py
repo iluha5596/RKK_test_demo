@@ -8,6 +8,7 @@ class LoginPage(BasePage):
         super(LoginPage, self).__init__(*args, **kwargs)
 
     def authorization(self, login, password):
+        # Авторизация
         input_login = self.driver.find_element(*LoginPageLocators.LOGIN_LINK)
         input_password = self.driver.find_element(*LoginPageLocators.PASSWORD_LINK)
         button_login = self.driver.find_element(*LoginPageLocators.BUTTON_LOGIN)

@@ -11,7 +11,8 @@ class PreparationTransactionLocators:
     CONTRACT_DATA = (By.XPATH, r'//label[@title="Дата договора \ сертификата"]/..//input[@field-code="reqContractDate"]')
     BOX_TWO = (By.XPATH, '//span[text()="Коробка №2"]')
     REQUISITES_BOX_ACCEPT = (By.XPATH, '//span[text()="Принять"]')
-    CLIENT_AGREES = (By.XPATH, '//*[text()="Клиент согласен (печать и подписание договора, при необходимости обновление карточки клиента в ЦФТ)"]/..//span[@class="p-radiobutton-icon p-c"]')
+    CLIENT_AGREES = (By.XPATH, '//*[text()="Клиент согласен (печать и подписание договора, при необходимости обновление карточки клиента в ЦФТ)"]'
+                               '/..//span[@class="p-radiobutton-icon p-c"]')
     ID_CARD = (By.XPATH, '//input[@field-code="cardId"]')
     ID_CARD_VALUE = (By.XPATH, '//input[@value="{}"]')
     GET_CARD_STATUS = (By.XPATH, '//span[text()="Получить статус карты"]')

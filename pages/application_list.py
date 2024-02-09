@@ -26,10 +26,6 @@ class ApplicationList(BasePage):
         application_link = self.driver.find_element(By.XPATH, application_link_locator)
         application_link.click()
 
-    def search_application(self, number_app):
-        application_link_locator = BasePageLocators.APPLICATION_LINK_NUMBER[1].format(number_app)
-        self.element_is_clickable(By.XPATH, application_link_locator)
-        application_link = self.driver.find_element(By.XPATH, application_link_locator)
-        application_link.click()
+
 
 

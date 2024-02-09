@@ -1,4 +1,6 @@
 import time
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchWindowException
@@ -94,9 +96,18 @@ class BasePage(object):
         task_list.click()
 
     def go_application_list(self):
+        # Переход на вкладку список заявок
         self.element_is_clickable(*BasePageLocators.APPLICATION_LIST, timeout=180)
         application_list = self.driver.find_element(*BasePageLocators.APPLICATION_LIST)
         application_list.click()
+
+    def application_search(self, number_app):
+        self.go_application_list()
+        # Поиск заявки
+        application_link_locator = BasePageLocators.APPLICATION_LINK_NUMBER[1].format(number_app)
+        self.element_is_clickable(By.XPATH, application_link_locator)
+        application_link = self.driver.find_element(By.XPATH, application_link_locator)
+        application_link.click()
 
 
 

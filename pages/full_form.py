@@ -31,6 +31,11 @@ def read_data_full_form():
 
 class FullForm(BasePage):
 
+    def filling_required_fields_full_form_passage(self):
+        # Заполнение обязательных полей, отправить заявку далее по процессу
+        self.filling_required_fields_full_form()
+        self.full_app_next_form()
+
     def filling_required_fields_full_form(self):
         data_full_form = read_data_full_form()
         # Запрашиваемые условия

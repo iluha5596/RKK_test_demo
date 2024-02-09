@@ -35,6 +35,20 @@ class ParsDataPreparationTransaction:
 
 class PreparationTransaction(BasePage):
 
+    def fill_preparation_transaction_cc_passage_task(self):
+        # Выбрать две одинаковые коробки и отправить заявку далее по процессу
+        self.go_product()
+        self.on_box()
+        self.add_box_solutions()
+        self.click_requisites_box()
+        self.filling_details_box_1()
+        self.filling_details_box_2()
+        self.accept_change_box()
+        self.click_client_agrees()
+        self.fill_id_card()
+        self.enter_code_word()
+        self.preparation_transaction_next_form()
+
     def __init__(self, driver=None, url=None, timeout=20):
         super().__init__(driver, url, timeout)
         # Получение текущей даты
@@ -43,16 +57,19 @@ class PreparationTransaction(BasePage):
         self.formatted_date = today.strftime("%d.%m.%Y")
 
     def go_product(self):
+        # Переход во вкладку продукт
         self.element_is_clickable(*PreparationTransactionLocators.PRODUCT, timeout=120)
         product = self.find_element(*PreparationTransactionLocators.PRODUCT)
         product.click()
 
     def on_box(self):
+        # Включить услугу коробка
         self.element_is_clickable(*PreparationTransactionLocators.SERVICE_BOX, timeout=60)
         service_box = self.find_element(*PreparationTransactionLocators.SERVICE_BOX)
         service_box.click()
 
     def add_box_solutions(self):
+        # Добавить коробку
         data_preparation_transaction = ParsDataPreparationTransaction()
         data_preparation_transaction_read, data = data_preparation_transaction.read_data_preparation_transaction()
         self.visibility_of_element_located(*PreparationTransactionLocators.COUNT_BOX_SOLUTIONS, timeout=60)
@@ -60,14 +77,15 @@ class PreparationTransaction(BasePage):
         box_solution.send_keys(data_preparation_transaction_read['count_box_solutions'])
 
     def click_requisites_box(self):
+        # Перейти в заполнение данных по коробке
         self.element_is_clickable(*PreparationTransactionLocators.REQUISITES_BOX, timeout=60)
         requisites_box = self.find_element(*PreparationTransactionLocators.REQUISITES_BOX)
         requisites_box.click()
 
     def filling_details_box_1(self):
+        # Заполнить данные по первой коробке
         data_preparation_transaction = ParsDataPreparationTransaction()
         data_preparation_transaction_read, data = data_preparation_transaction.read_data_preparation_transaction()
-        # Заполнение данных по первой коробке
         self.visibility_of_element_located(*PreparationTransactionLocators.CONTRACT_NUMBER)
         contract_number = self.find_element(*PreparationTransactionLocators.CONTRACT_NUMBER)
         contract_number.send_keys(data_preparation_transaction_read['contract_number_box_1'])
@@ -88,16 +106,19 @@ class PreparationTransaction(BasePage):
         contract_data.send_keys(self.formatted_date)
 
     def accept_change_box(self):
+        # Нажать Принять изменения по кробке
         requisites_box_accept = self.find_element(*PreparationTransactionLocators.REQUISITES_BOX_ACCEPT)
         requisites_box_accept.click()
 
     def click_client_agrees(self):
+        # Кликнуть "Клиент согласен..."
         self.invisibility_of_element_located(*PreparationTransactionLocators.REQUISITES_BOX)
         self.element_is_clickable(*PreparationTransactionLocators.CLIENT_AGREES)
         client_agrees = self.find_element(*PreparationTransactionLocators.CLIENT_AGREES)
         client_agrees.click()
 
     def fill_id_card(self):
+        # Заполнить id карты
         input_id_card = self.find_element(*PreparationTransactionLocators.ID_CARD)
         get_card_status = self.find_element(*PreparationTransactionLocators.GET_CARD_STATUS)
 
@@ -119,6 +140,7 @@ class PreparationTransaction(BasePage):
         data_preparation_transaction.save_data_preparation_transaction(data_preparation_transaction_read)
 
     def enter_code_word(self):
+        # Заполнить кодовое слово
         data_preparation_transaction = ParsDataPreparationTransaction()
         data_preparation_transaction_read, data = data_preparation_transaction.read_data_preparation_transaction()
         self.element_is_clickable(*PreparationTransactionLocators.ENTER_CODEWORD)
@@ -134,6 +156,7 @@ class PreparationTransaction(BasePage):
         self.invisibility_of_element_located(*PreparationTransactionLocators.SAVE_CODEWORD)
 
     def preparation_transaction_next_form(self):
+        # Нажать Далее
         self.element_is_clickable(*PreparationTransactionLocators.BUTTON_NEXT)
         button_next = self.find_element(*PreparationTransactionLocators.BUTTON_NEXT)
         button_next.click()
