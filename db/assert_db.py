@@ -1,3 +1,4 @@
+import allure
 from db.select_db import SelectDB
 from db.request_db import RequestDB
 import time
@@ -59,12 +60,16 @@ class AssertDB(object):
 
     def assert_db_for_tariff_installment_and_2box(self, base_url, application_id):
         # Проверки БД для теста с тарифом рассрочка и двумя коробками
-        self.wait_close_process(base_url, application_id)
-        self.assert_cft_updateaccount(base_url, application_id)
-        self.assert_count_method_calls(base_url, application_id)
-        self.assert_transfer_installment(base_url, application_id)
-        self.assert_payment_box(base_url, application_id)
-        print('Проверки БД успешно прошли')
+        with allure.step('Проверки БД для теста с тарифом рассрочка и двумя коробками'):
+            self.wait_close_process(base_url, application_id)
+            self.assert_cft_updateaccount(base_url, application_id)
+            print('assert_cft_updateaccount - Ok')
+            self.assert_count_method_calls(base_url, application_id)
+            print('assert_count_method_calls - Ok')
+            self.assert_transfer_installment(base_url, application_id)
+            print('assert_transfer_installment - Ok')
+            self.assert_payment_box(base_url, application_id)
+            print('assert_payment_box - Ok')
 
     def wait_close_process(self, base_url, application_id):
         get_result_db = GetResultDB()
