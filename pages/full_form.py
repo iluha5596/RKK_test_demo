@@ -3,7 +3,7 @@ import allure
 from selenium.webdriver import Keys
 from pages.base_page import BasePage
 from locators.full_form_locators import FullFormLocators
-from data.read_data import FullFormData
+from data.read_save_data import FullFormData
 
 
 class FullForm(BasePage):

@@ -4,7 +4,7 @@ from selenium.webdriver import Keys
 from pages.base_page import BasePage
 from locators.preparation_transaction_locators import PreparationTransactionLocators
 from selenium.webdriver.common.action_chains import ActionChains
-from data.read_data import PreparationTransactionData
+from data.read_save_data import PreparationTransactionData
 
 
 class PreparationTransaction(BasePage):

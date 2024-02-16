@@ -2,7 +2,7 @@ import os
 import allure
 from locators.short_form_locators import ShortFormLocators
 from pages.base_page import BasePage
-from data.read_data import ShortFormData
+from data.read_save_data import ShortFormData
 from data.document_download import DocumentDownload
 
 
