@@ -68,7 +68,6 @@ class FullForm(BasePage):
         employer_phone = self.find_element(*FullFormLocators.EMPLOYER_PHONE)
         self.driver.execute_script("arguments[0].value = arguments[1];", employer_phone, data_full_form_phone)
         employer_phone.send_keys(data_full_form_phone, Keys.RETURN)
-        self.driver.save_screenshot("screenshot.png")
 
         self.not_empty_value(employer_phone)
         employer_name = self.find_element(*FullFormLocators.EMPLOYER_NAME)
