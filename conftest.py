@@ -74,8 +74,6 @@ def path(request):
     path = request.config.getoption('path')
 
     if path == '149551799240':
-        return '/xbpm/runtime/applications/ru.unitarius.zenit/znt-lfr-objects/1.0.0/actions/createRequest?actionParams={"crmClientId":"af56adf","cftClientId":"149551799240"}'
-    elif path == '398166901374':
         return '/xbpm/runtime/applications/ru.unitarius.zenit/znt-lfr-objects/1.0.0/actions/createRequest?actionParams={"crmClientId":"sdfa54a5","cftClientId":"149551799240"}'
     elif path == 'applications':
         return '/xbpm/runtime/applications/ru.unitarius.zenit/znt-lfr-objects/1.0.0/forms/appFormRequestsMyForm'

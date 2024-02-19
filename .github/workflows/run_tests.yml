@@ -10,7 +10,7 @@ on:
       path:
         description: 'Path for tests'
         required: true
-        default: '398166901374'
+        default: '149551799240'
       browser_name:
         description: 'Browser for tests chrome or firefox'
         required: true
