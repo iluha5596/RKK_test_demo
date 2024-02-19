@@ -37,6 +37,7 @@ class TestCFTMethod:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, driver, base_url, path):
         url = f'{base_url[0]}{path}'
+        print(url)
         login_page = LoginPage(driver, url)
         login_page.open()
         # Авторизация
