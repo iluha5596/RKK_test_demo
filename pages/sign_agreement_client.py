@@ -6,14 +6,17 @@ from selenium.webdriver.support.ui import WebDriverWait as wait
 
 
 class SignAgreementClient(BasePage):
+    count_window = 1
 
     def fill_sign_agreement_client(self, driver):
         # Вложить все документы и отправить заявку далее по процессу
         with allure.step('Вложить все документы'):
             base_page = BasePage(driver)
             self.click_generate_documents()
+            self.count_documents_print()
             self.click_generate_documents_and_print()
-            base_page.close_new_windows()
+            self.number_of_windows_to_be(SignAgreementClient.count_window)
+            base_page.switching_main_window()
             self.add_documents()
         with allure.step('Выбрать действие "Кредитный договор подписан" и отправить заявку на выдачу'):
             self.choose_loan_agreement_signed()
@@ -24,6 +27,12 @@ class SignAgreementClient(BasePage):
         self.element_is_clickable(*SignAgreementClientLocators.GENERATE_DOCUMENTS)
         generate_documents = self.find_element(*SignAgreementClientLocators.GENERATE_DOCUMENTS)
         generate_documents.click()
+
+    def count_documents_print(self):
+        self.visibility_of_element_located(*SignAgreementClientLocators.DOCUMENTS)
+        element_documents = self.find_elements(*SignAgreementClientLocators.DOCUMENTS)
+        count_document = len(element_documents)
+        SignAgreementClient.count_window += count_document
 
     def click_generate_documents_and_print(self):
         # Кликнуть на "Сформировать документы и отправить на печать"

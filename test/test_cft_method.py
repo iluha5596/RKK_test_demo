@@ -57,5 +57,12 @@ class TestCFTMethod:
         sign_agreement_client.fill_sign_agreement_client(driver)
         assert_db.assert_db_for_tariff_installment_and_2box(base_url, application_id=short_form_page.application_id)
 
+    # def test_sign_agreement(self, driver):
+    #     my_task = MyTask(driver)
+    #     my_task.go_task(number_app='П_00111860')
+    #     sign_agreement_client = SignAgreementClient(driver)
+    #     sign_agreement_client.fill_sign_agreement_client(driver)
+
+
 
 

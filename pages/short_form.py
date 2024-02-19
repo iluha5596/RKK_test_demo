@@ -65,7 +65,7 @@ class ShortFormPage(BasePage):
 
     def determine_application_number(self):
         # Возращает номер заявки
-        self.visibility_of_element_located(*ShortFormLocators.APPLICATION_NUMBER)
+        self.visibility_of_element_located(*ShortFormLocators.APPLICATION_NUMBER, 60)
         number_app = (self.find_element(*ShortFormLocators.APPLICATION_NUMBER)).text
         ShortFormPage.application_id = number_app
         print(number_app)

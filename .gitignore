@@ -1,6 +1,7 @@
 requirements.txt
 .pytest_cache/
 .venv/
+venv
 .idea/
 .env
 __pycache__/

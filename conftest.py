@@ -19,11 +19,12 @@ def driver(request):
 
     if browser_name == 'chrome':
         options = ChromeOptions()
-        # options.headless = True
+        options.add_argument('--headless')
         driver = webdriver.Chrome(options=options)
         driver.maximize_window()
     elif browser_name == 'firefox':
         options = FirefoxOptions()
+        options.add_argument('--headless')
         driver = webdriver.Firefox(options=options)
         driver.maximize_window()
     else:
@@ -31,6 +32,20 @@ def driver(request):
     yield driver
     print("\nquit browser")
     driver.quit()
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == "call" and rep.failed:
+        try:
+            driver = item.funcargs['driver']
+        except KeyError:
+            return
+        screenshot_path = f"screenshot_{item.name}.png"
+        driver.save_screenshot(screenshot_path)
+        print(f"\nScreenshot saved as {screenshot_path}")
 
 
 @pytest.fixture
