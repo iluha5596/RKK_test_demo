@@ -11,6 +11,10 @@ on:
         description: 'Path for tests'
         required: true
         default: '398166901374'
+      browser_name:
+        description: 'Browser for tests chrome or firefox'
+        required: true
+        default: 'chrome'
 
 jobs:
   test:
@@ -28,4 +32,4 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run tests
-        run: pytest -s -v --base_url=${{ github.event.inputs.base_url }} --path=${{ github.event.inputs.path }}
+        run: pytest -s -v --base_url=${{ github.event.inputs.base_url }} --path=${{ github.event.inputs.path }} --browser_name=${{ github.event.inputs.browser_name }}
