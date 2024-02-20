@@ -11,20 +11,21 @@ class PreparationTransaction(BasePage):
 
     def fill_preparation_transaction_cc_passage_task(self):
         # Выбрать две одинаковые коробки и отправить заявку далее по процессу
-        with allure.step('Выбрать две одинаковые коробки и заполнить по нима данные на задаче "Подготовка к сделке"'):
-            self.go_product()
-            self.on_box()
-            self.add_box_solutions()
-            self.click_requisites_box()
-            self.filling_details_box_1()
-            self.filling_details_box_2()
-            self.accept_change_box()
-        with allure.step('Выбрать действие "Клиент согласен..." и заполнить id карты'):
-            self.click_client_agrees()
-            self.fill_id_card()
-            self.enter_code_word()
-        with allure.step('Отправить заявку далее по процессу с задачи "Подготовка к сделке"'):
-            self.preparation_transaction_next_form()
+        with allure.step('Проход заявки на задачу "Подготовка к сделке"'):
+            with allure.step('Выбрать две одинаковые коробки и заполнить по нима данные на задаче "Подготовка к сделке"'):
+                self.go_product()
+                self.on_box()
+                self.add_box_solutions()
+                self.click_requisites_box()
+                self.filling_details_box_1()
+                self.filling_details_box_2()
+                self.accept_change_box()
+            with allure.step('Выбрать действие "Клиент согласен..." и заполнить id карты'):
+                self.click_client_agrees()
+                self.fill_id_card()
+                self.enter_code_word()
+            with allure.step('Отправить заявку далее по процессу с задачи "Подготовка к сделке"'):
+                self.preparation_transaction_next_form()
 
     def __init__(self, driver=None, url=None, timeout=20):
         super().__init__(driver, url, timeout)
@@ -47,7 +48,7 @@ class PreparationTransaction(BasePage):
 
     def add_box_solutions(self):
         # Добавить коробку
-        data_preparation_transaction = PreparationTransactionData('../data/data_preparation_transaction.json')
+        data_preparation_transaction = PreparationTransactionData('data/data_preparation_transaction.json')
         self.visibility_of_element_located(*PreparationTransactionLocators.COUNT_BOX_SOLUTIONS, timeout=60)
         box_solution = self.find_element(*PreparationTransactionLocators.COUNT_BOX_SOLUTIONS)
         box_solution.send_keys(data_preparation_transaction.count_box_solutions)
@@ -60,7 +61,7 @@ class PreparationTransaction(BasePage):
 
     def filling_details_box_1(self):
         # Заполнить данные по первой коробке
-        data_preparation_transaction = PreparationTransactionData('../data/data_preparation_transaction.json')
+        data_preparation_transaction = PreparationTransactionData('data/data_preparation_transaction.json')
         self.visibility_of_element_located(*PreparationTransactionLocators.CONTRACT_NUMBER)
         contract_number = self.find_element(*PreparationTransactionLocators.CONTRACT_NUMBER)
         contract_number.send_keys(data_preparation_transaction.contract_number_box_1)
@@ -68,7 +69,7 @@ class PreparationTransaction(BasePage):
         contract_data.send_keys(self.formatted_date)
 
     def filling_details_box_2(self):
-        data_preparation_transaction = PreparationTransactionData('../data/data_preparation_transaction.json')
+        data_preparation_transaction = PreparationTransactionData('data/data_preparation_transaction.json')
         # Переход во вкладку второй коробки и заполнение данных
         box_two = self.find_element(*PreparationTransactionLocators.BOX_TWO)
         box_two.click()
@@ -96,7 +97,7 @@ class PreparationTransaction(BasePage):
         input_id_card = self.find_element(*PreparationTransactionLocators.ID_CARD)
         get_card_status = self.find_element(*PreparationTransactionLocators.GET_CARD_STATUS)
 
-        data_preparation_transaction = PreparationTransactionData('../data/data_preparation_transaction.json')
+        data_preparation_transaction = PreparationTransactionData('data/data_preparation_transaction.json')
         while self.invisibility_of_element_located(*PreparationTransactionLocators.TIPE_CARD, timeout=5):
             current_index = data_preparation_transaction.current_index
             id_card = data_preparation_transaction.id_card
@@ -113,7 +114,7 @@ class PreparationTransaction(BasePage):
 
     def enter_code_word(self):
         # Заполнить кодовое слово
-        data_preparation_transaction = PreparationTransactionData('../data/data_preparation_transaction.json')
+        data_preparation_transaction = PreparationTransactionData('data/data_preparation_transaction.json')
         self.element_is_clickable(*PreparationTransactionLocators.ENTER_CODEWORD)
         enter_codeword = self.find_element(*PreparationTransactionLocators.ENTER_CODEWORD)
         enter_codeword.click()

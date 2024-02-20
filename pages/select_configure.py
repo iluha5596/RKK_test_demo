@@ -8,12 +8,13 @@ class SelectConfigure(BasePage):
 
     def choose_tariff_passage_task(self, tariff):
         # Выбрать тариф и отправить заявку далее по процессу
-        with allure.step('Выбрать тариф'):
-            self.choose_tariff(tariff)
-        with allure.step('Выбрать действие "Переход на принятие решения" '
-                         'и отправить заявку далее по процессу с задачи "Выбрать и сконфигурировать"'):
-            self.choose_transition_decision_making()
-            self.select_configure_next_form()
+        with allure.step('Проход заявки на задачу "Выбрать и сконфигурировать продукт"'):
+            with allure.step('Выбрать тариф'):
+                self.choose_tariff(tariff)
+            with allure.step('Выбрать действие "Переход на принятие решения" '
+                             'и отправить заявку далее по процессу с задачи "Выбрать и сконфигурировать"'):
+                self.choose_transition_decision_making()
+                self.select_configure_next_form()
 
     def choose_tariff(self, tariff):
         # Выбрать тариф
@@ -33,5 +34,5 @@ class SelectConfigure(BasePage):
         self.element_is_clickable(*SelectConfigureLocators.BUTTON_NEXT)
         button_next = self.find_element(*SelectConfigureLocators.BUTTON_NEXT)
         button_next.click()
-        self.element_is_not_clickable(*SelectConfigureLocators.BUTTON_NEXT, timeout=40)
+        self.element_is_not_clickable(*SelectConfigureLocators.BUTTON_NEXT, timeout=60)
 

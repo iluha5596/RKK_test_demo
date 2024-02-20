@@ -63,13 +63,9 @@ class AssertDB(object):
         with allure.step('Проверки БД для теста с тарифом рассрочка и двумя коробками'):
             self.wait_close_process(base_url, application_id)
             self.assert_cft_updateaccount(base_url, application_id)
-            print('assert_cft_updateaccount - Ok')
             self.assert_count_method_calls(base_url, application_id)
-            print('assert_count_method_calls - Ok')
             self.assert_transfer_installment(base_url, application_id)
-            print('assert_transfer_installment - Ok')
             self.assert_payment_box(base_url, application_id)
-            print('assert_payment_box - Ok')
 
     def wait_close_process(self, base_url, application_id):
         get_result_db = GetResultDB()
@@ -99,7 +95,8 @@ class AssertDB(object):
                                                                            base_url=base_url,
                                                                            application_id=application_id)
         value_receiver_acc_updateaccount = ' '.join(receiver_acc_updateaccount)
-        assert transfer_account == value_receiver_acc_updateaccount, \
+        with allure.step('Проверка, что в XBPM_CFT_UPDATEACCOUNT передаётся верный transfer_account'):
+            assert transfer_account == value_receiver_acc_updateaccount, \
             'В XBPM_CFT_UPDATEACCOUNT передался не верный transfer_account'
         self.transfer_account = transfer_account
 
@@ -108,8 +105,9 @@ class AssertDB(object):
         count_method_calls = get_result_db.request_count_method_calls(source='XBPM_CFT_TRANSFERCARD',
                                                                       base_url=base_url,
                                                                       application_id=application_id)
-        assert count_method_calls == count_calls, \
-            f"Метод XBPM_CFT_TRANSFERCARD должен был вызваться {count_calls} раз(а), по итогу вызвался {count_method_calls} раз(а)"
+        with allure.step(f'Проверка, что XBPM_CFT_TRANSFERCARD вызвался {count_calls} раз(а)'):
+            assert count_method_calls == count_calls, \
+                f"Метод XBPM_CFT_TRANSFERCARD должен был вызваться {count_calls} раз(а), по итогу вызвался {count_method_calls} раз(а)"
 
     def assert_transfer_installment(self, base_url, application_id):
         get_result_db = GetResultDB()
@@ -120,16 +118,18 @@ class AssertDB(object):
                                                                          application_id=application_id)
         value_sender_acc_transfer_card = ' '.join(sender_acc_transfer_card)
         account_number = get_result_db.account_number(base_url=base_url, application_id=application_id)
-        assert value_sender_acc_transfer_card == account_number, \
-            'В XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался не верный SENDER_ACC (account_number)'
+        with allure.step('Проверка, что в XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался верный SENDER_ACC (account_number)'):
+            assert value_sender_acc_transfer_card == account_number, \
+                'В XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался не верный SENDER_ACC (account_number)'
         compiler = re.compile(r'<ns2:DOC_TYPE>TRANSFER_INSTALLMENT</ns2:DOC_TYPE>.*?<ns2:RECEIVER_ACC>(.*?)</ns2:RECEIVER_ACC>', re.DOTALL)
         receiver_acc_transfer_card = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD',
                                                                            compiler=compiler,
                                                                            base_url=base_url,
                                                                            application_id=application_id)
         value_receiver_acc_transfer_card = ''.join(receiver_acc_transfer_card)
-        assert value_receiver_acc_transfer_card == self.transfer_account, \
-            'В XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался не верный RECEIVER_ACC (transfer_account)'
+        with allure.step('Проверка, что в XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался верный RECEIVER_ACC'):
+            assert value_receiver_acc_transfer_card == self.transfer_account, \
+                'В XBPM_CFT_TRANSFERCARD по услуге TRANSFER_INSTALLMENT передался не верный RECEIVER_ACC (transfer_account)'
 
     def assert_payment_box(self, base_url, application_id):
         get_result_db = GetResultDB()
@@ -138,17 +138,19 @@ class AssertDB(object):
                                                                        compiler=compiler,
                                                                        base_url=base_url,
                                                                        application_id=application_id)
-        for value_sender_acc_payment_box in sender_acc_payment_box:
-            assert value_sender_acc_payment_box == self.transfer_account, \
-                'В XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX передался не верный SENDER_ACC (transfer_account)'
+        with allure.step('Проверка, что в XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX передался верный SENDER_ACC (transfer_account)'):
+            for value_sender_acc_payment_box in sender_acc_payment_box:
+                assert value_sender_acc_payment_box == self.transfer_account, \
+                    'В XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX передался не верный SENDER_ACC (transfer_account)'
 
         compiler = re.compile(r'<ns2:DOC_TYPE>PAYMENT_BOX</ns2:DOC_TYPE>.*?<ns2:DESCRIPTION>(.*?)</ns2:DESCRIPTION>', re.DOTALL)
         description_payment_box = get_result_db.external_source_request(source='XBPM_CFT_TRANSFERCARD',
                                                                         compiler=compiler,
                                                                         base_url=base_url,
                                                                         application_id=application_id)
-        for i in range(len(description_payment_box)):
-            for j in range(i+1, len(description_payment_box)):
-                assert description_payment_box[i] != description_payment_box[j], \
-                    'В XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX отправилось значение по одной и той же коробке, а должно было по двум'
+        with allure.step('Проверка, что в XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX отправилось значение по двум коробкам'):
+            for i in range(len(description_payment_box)):
+                for j in range(i+1, len(description_payment_box)):
+                    assert description_payment_box[i] != description_payment_box[j], \
+                        'В XBPM_CFT_TRANSFERCARD по услуге PAYMENT_BOX отправилось значение по одной и той же коробке, а должно было по двум'
 

@@ -7,7 +7,7 @@ from data.document_download import DocumentDownload
 
 
 def document():
-    document_download = os.path.abspath('../data/document_download.jpg')
+    document_download = os.path.abspath('data/document_download.jpg')
     return document_download
 
 
@@ -16,19 +16,20 @@ class ShortFormPage(BasePage):
 
     def fill_required_fields_short_form(self, driver):
         # Заполнить обязательные поля и отправить заявку далее по процессу
-        with allure.step('Заполнение обязательных полей на короткой форме'):
-            self.filling_short_form()
-            self.generate_documents()
-            self.modal_window_generate_documents()
-            base_page = BasePage(driver)
-            base_page.close_new_window()
-            self.attach_client_consent_file()
-        with allure.step('Отправить заявку далее по процссу с короткой анкеты'):
-            self.next_form()
+        with allure.step('Проход заявки на задачу "Короткая анкета"'):
+            with allure.step('Заполнение обязательных полей на короткой форме'):
+                self.filling_short_form()
+                self.generate_documents()
+                self.modal_window_generate_documents()
+                base_page = BasePage(driver)
+                base_page.close_new_window()
+                self.attach_client_consent_file()
+            with allure.step('Отправить заявку далее по процссу с короткой анкеты'):
+                self.next_form()
 
     def filling_short_form(self):
         # Заполнение обязательных полей
-        short_form_data = ShortFormData('../data/data_short_form.json')
+        short_form_data = ShortFormData('data/data_short_form.json')
         input_amount_credit = self.find_element(*ShortFormLocators.INPUT_AMOUNT_CREDIT)
         input_monthly_income_amount = self.find_element(*ShortFormLocators.INPUT_MONTHLY_INCOME_AMOUNT)
         button_file_passport = self.find_element(*ShortFormLocators.BUTTON_FILE_PASSPORT_DOWNLOAD)
@@ -37,7 +38,7 @@ class ShortFormPage(BasePage):
         input_amount_credit.send_keys(short_form_data.amount_credit)
         input_monthly_income_amount.send_keys(short_form_data.monthly_income_amount)
 
-        document_download = DocumentDownload('../data/document_download.jpg')
+        document_download = DocumentDownload('data/document_download.jpg')
         button_file_passport.send_keys(document_download.document_download)
         button_file_photo.send_keys(document_download.document_download)
 
@@ -58,7 +59,7 @@ class ShortFormPage(BasePage):
 
     def attach_client_consent_file(self):
         # Вложить файл в Согласие клиента
-        document_download = DocumentDownload('../data/document_download.jpg')
+        document_download = DocumentDownload('data/document_download.jpg')
         self.element_is_clickable(*ShortFormLocators.BUTTON_FILE_CONSENT_DOWNLOAD)
         button_file_consent = self.find_element(*ShortFormLocators.BUTTON_FILE_CONSENT_DOWNLOAD)
         button_file_consent.send_keys(document_download.document_download)

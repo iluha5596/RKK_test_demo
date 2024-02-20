@@ -10,17 +10,18 @@ class SignAgreementClient(BasePage):
 
     def fill_sign_agreement_client(self, driver):
         # Вложить все документы и отправить заявку далее по процессу
-        with allure.step('Вложить все документы'):
-            base_page = BasePage(driver)
-            self.click_generate_documents()
-            self.count_documents_print()
-            self.click_generate_documents_and_print()
-            self.number_of_windows_to_be(SignAgreementClient.count_window)
-            base_page.switching_main_window()
-            self.add_documents()
-        with allure.step('Выбрать действие "Кредитный договор подписан" и отправить заявку на выдачу'):
-            self.choose_loan_agreement_signed()
-            self.sign_agreement_client_next()
+        with allure.step('Проход заявки на задачу "Подписать договор с клиентом"'):
+            with allure.step('Вложить все документы'):
+                base_page = BasePage(driver)
+                self.click_generate_documents()
+                self.count_documents_print()
+                self.click_generate_documents_and_print()
+                self.number_of_windows_to_be(SignAgreementClient.count_window)
+                base_page.switching_main_window()
+                self.add_documents()
+            with allure.step('Выбрать действие "Кредитный договор подписан" и отправить заявку на выдачу'):
+                self.choose_loan_agreement_signed()
+                self.sign_agreement_client_next()
 
     def click_generate_documents(self):
         # Кликнуть на "Сформировать документы"
@@ -43,7 +44,7 @@ class SignAgreementClient(BasePage):
 
     def add_documents(self):
         # Добавить документы
-        document_download = DocumentDownload('../data/document_download.jpg')
+        document_download = DocumentDownload('data/document_download.jpg')
         input_documents = self.find_elements(*SignAgreementClientLocators.INPUT_DOCUMENTS)
         for document in input_documents:
             document.send_keys(document_download.document_download)

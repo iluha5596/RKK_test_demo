@@ -11,13 +11,14 @@ class FullForm(BasePage):
 
     def filling_required_fields_full_form_passage(self):
         # Заполнение обязательных полей, отправить заявку далее по процессу
-        with allure.step('Заполнение обязательных полей на полной анкете'):
-            self.filling_required_fields_full_form()
-        with allure.step('Отправить заявку далее по процессу с полной анкеты'):
-            self.full_app_next_form()
+        with allure.step('Проход заявки на задачу "Заполнить полную анкету"'):
+            with allure.step('Заполнение обязательных полей на полной анкете'):
+                self.filling_required_fields_full_form()
+            with allure.step('Отправить заявку далее по процессу с полной анкеты'):
+                self.full_app_next_form()
 
     def filling_required_fields_full_form(self):
-        data_full_form = FullFormData('../data/data_full_form.json')
+        data_full_form = FullFormData('data/data_full_form.json')
         # Запрашиваемые условия
         self.visibility_of_element_located(*FullFormLocators.CREDIT_TERM)
         credit_term = self.find_element(*FullFormLocators.CREDIT_TERM)

@@ -7,10 +7,11 @@ class NotifyClient(BasePage):
 
     def notify_client_passage_task(self):
         # Отправить заявку далее по процессу
-        with allure.step('Выбрать действие "Клиент согласен..." '
-                         'и отправить заявку далее по процессу с задачи "Уведомить клиента"'):
-            self.choose_client_agrees()
-            self.notify_client_next_form()
+        with allure.step('Проход заявки на задачу "Уведомить клиента"'):
+            with allure.step('Выбрать действие "Клиент согласен..." '
+                             'и отправить заявку далее по процессу с задачи "Уведомить клиента"'):
+                self.choose_client_agrees()
+                self.notify_client_next_form()
 
     def choose_client_agrees(self):
         # Выбрать действие "Клиент согласен..."
