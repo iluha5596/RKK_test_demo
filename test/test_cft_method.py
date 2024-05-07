@@ -30,7 +30,7 @@ def passage_preparation_transaction(driver, tariff=None):
     application.take_task_through_application_form(driver)
 
 
-@allure.suite('Тестирование CFT методов')
+@allure.feature('Тестирование CFT методов')
 class TestCFTMethod:
 
     @pytest.fixture(scope="function", autouse=True)
@@ -44,7 +44,7 @@ class TestCFTMethod:
         password = config('PASSWORD_CM_25')
         login_page.authorization(login=login, password=password)
 
-    @allure.title('Тестирование тарифа с рассрочкой и двумя одинаковыми коробками')
+    @allure.story('Тестирование тарифа с рассрочкой и двумя одинаковыми коробками')
     def test_tariff_installment_and_2box(self, driver, base_url):
         preparation_transaction = PreparationTransaction(driver)
         sign_agreement_client = SignAgreementClient(driver)
