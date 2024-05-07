@@ -53,18 +53,17 @@ def base_url(request):
     base_url = request.config.getoption('base_url')
 
     if base_url == 't1':
-        return ['https://rkk-t1.dev.zenit.ru', 'T1']
+        return ['https://stend_1', 'T1']
     elif base_url == 't2':
-        return 'https://rkk-t2.dev.zenit.ru'
+        return ['https://stend_t2', 'T2']
     elif base_url == 't3':
-        return 'https://rkk-t3.dev.zenit.ru'
+        return ['https://stend_t3', 'T3']
     elif base_url == 't4':
-        return 'https://rkk-t4.dev.zenit.ru'
+        return ['https://stend_t4', 'T4']
     elif base_url == 'dev':
-        return 'https://rkk.dev.zenit.ru'
+        return ['https://stend_dev', 'DEV']
     elif base_url == 'demo':
-        return ['https://rkk-demo.dev.zenit.ru', 'DEMO']
-    # Если значение base_url не соответствует ни одному условию, вернёт текст ошибки
+        return ['https://stend_demo', 'DEMO']
     else:
         raise pytest.UsageError('Укажите base_url пример --base_url=t2')
 
@@ -73,11 +72,11 @@ def base_url(request):
 def path(request):
     path = request.config.getoption('path')
 
-    if path == '149551799240':
-        return '/xbpm/runtime/applications/ru.unitarius.zenit/znt-lfr-objects/1.0.0/actions/createRequest?actionParams={"crmClientId":"sdfa54a5","cftClientId":"149551799240"}'
-    elif path == 'applications':
-        return '/xbpm/runtime/applications/ru.unitarius.zenit/znt-lfr-objects/1.0.0/forms/appFormRequestsMyForm'
-    elif path == 'tasks':
-        return '/xbpm/runtime/applications/ru.unitarius.zenit/znt-lfr-objects/1.0.0/forms/appFormTasksMyForm'
+    if path == '77777777':
+        return '/p_77777777'
+    elif path == 'app':
+        return '/p_app'
+    elif path == 'tas':
+        return '/p_tas'
     else:
-        raise pytest.UsageError('Укажите путь, пример --path=149551799240')
+        raise pytest.UsageError('Укажите путь, пример --path=77777777')

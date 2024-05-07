@@ -28,8 +28,3 @@ class MyTask(BasePage):
                 break
             else:
                 self.driver.refresh()
-
-
-
-
-

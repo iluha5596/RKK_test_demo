@@ -1,8 +1,7 @@
 .pytest_cache/
 .venv/
 venv
-results
+allure_results
 .results/
 .idea/
-.env
 __pycache__/

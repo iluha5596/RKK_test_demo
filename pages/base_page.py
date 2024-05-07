@@ -1,4 +1,3 @@
-import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
@@ -8,10 +7,9 @@ from locators.basa_page_locators import BasePageLocators
 
 class BasePage(object):
 
-    def __init__(self, driver=None, url=None, timeout=20):
+    def __init__(self, driver=None, url=None):
         self.driver = driver
         self.url = url
-        self.driver.implicitly_wait(timeout)
 
     def open(self):
         self.driver.get(self.url)
@@ -85,7 +83,6 @@ class BasePage(object):
             try:
                 self.driver.switch_to.window(window)
                 self.driver.close()
-                # self.driver.execute_script("window.close();")
             except NoSuchWindowException:
                 # Пропускаем закрытое окно и переходим к следующему
                 continue

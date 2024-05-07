@@ -9,10 +9,15 @@ from data.read_save_data import PreparationTransactionData
 
 class PreparationTransaction(BasePage):
 
+    def __init__(self, driver=None, url=None):
+        super().__init__(driver, url)
+        today = datetime.now()
+        self.formatted_date = today.strftime("%d.%m.%Y")
+
     def fill_preparation_transaction_cc_passage_task(self):
-        # Выбрать две одинаковые коробки и отправить заявку далее по процессу
-        with allure.step('Проход заявки на задачу "Подготовка к сделке"'):
-            with allure.step('Выбрать две одинаковые коробки и заполнить по нима данные на задаче "Подготовка к сделке"'):
+        with allure.step('Задача "Подготовка к сделке"'):
+            with allure.step(
+                    'Выбрать две одинаковые коробки и заполнить по нима данные на задаче "Подготовка к сделке"'):
                 self.go_product()
                 self.on_box()
                 self.add_box_solutions()
@@ -24,15 +29,8 @@ class PreparationTransaction(BasePage):
                 self.click_client_agrees()
                 self.fill_id_card()
                 self.enter_code_word()
-            with allure.step('Отправить заявку далее по процессу с задачи "Подготовка к сделке"'):
+            with allure.step('Отправить заявку далее по процессу"'):
                 self.preparation_transaction_next_form()
-
-    def __init__(self, driver=None, url=None, timeout=20):
-        super().__init__(driver, url, timeout)
-        # Получение текущей даты
-        today = datetime.now()
-        # Форматирование даты в строку
-        self.formatted_date = today.strftime("%d.%m.%Y")
 
     def go_product(self):
         # Переход во вкладку продукт
@@ -133,9 +131,3 @@ class PreparationTransaction(BasePage):
         button_next = self.find_element(*PreparationTransactionLocators.BUTTON_NEXT)
         button_next.click()
         self.element_is_not_clickable(*PreparationTransactionLocators.BUTTON_NEXT)
-
-
-
-
-
-

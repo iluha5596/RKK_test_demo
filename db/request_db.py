@@ -1,7 +1,7 @@
 from db.connect_db import ConnectDB
 
 
-class RequestDB(object):
+class RequestDB:
 
     def __init__(self):
         self.result = None

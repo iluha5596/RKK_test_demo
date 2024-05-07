@@ -10,7 +10,6 @@ from pages.notify_client import NotifyClient
 from pages.preparation_transaction import PreparationTransaction
 from pages.sign_agreement_client import SignAgreementClient
 from db.assert_db import AssertDB
-from pages.my_task import MyTask
 
 
 def passage_preparation_transaction(driver, tariff=None):
@@ -57,13 +56,3 @@ class TestCFTMethod:
         application.take_task_through_application_form(driver)
         sign_agreement_client.fill_sign_agreement_client(driver)
         assert_db.assert_db_for_tariff_installment_and_2box(base_url, application_id=short_form_page.application_id)
-
-    # def test_sign_agreement(self, driver):
-    #     my_task = MyTask(driver)
-    #     my_task.go_task(number_app='П_00111860')
-    #     sign_agreement_client = SignAgreementClient(driver)
-    #     sign_agreement_client.fill_sign_agreement_client(driver)
-
-
-
-

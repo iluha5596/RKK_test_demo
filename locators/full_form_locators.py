@@ -31,9 +31,10 @@ class FullFormLocators:
     PHONE_TYPE = (By.XPATH, '//div[@field-code="phoneType"]')
     CLIENT_WORK_PHONE = (By.XPATH, '//li[@aria-label="Рабочий телефон клиента"]')
     EMPLOYER_PHONE = (By.XPATH, '//*[text()="Телефоны работодателя"]/../../../..//*[@field-code="PHONE_CONTROL"]')
-    MESSAGE_ADDING_PHONE = (By.XPATH, '//span[text()="Телефоны работодателя"]/../../..//*[starts-with(text(), "Оператор связи")]')
-    EMPLOYER_ADDRESS = (By.XPATH, '//span[text()="Фактический адрес работодателя"]/../../..//*[@field-code="address_search1"]')
+    MESSAGE_ADDING_PHONE = (
+        By.XPATH, '//span[text()="Телефоны работодателя"]/../../..//*[starts-with(text(), "Оператор связи")]')
+    EMPLOYER_ADDRESS = (
+        By.XPATH, '//span[text()="Фактический адрес работодателя"]/../../..//*[@field-code="address_search1"]')
     INN = (By.XPATH, '(//input[@class="p-inputtext p-component p-autocomplete-input"])[2]')
     # Далее
     FULL_APP_NEXT_BTN = (By.XPATH, '//span[text()="Далее"]')
-

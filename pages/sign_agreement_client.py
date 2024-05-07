@@ -10,7 +10,7 @@ class SignAgreementClient(BasePage):
 
     def fill_sign_agreement_client(self, driver):
         # Вложить все документы и отправить заявку далее по процессу
-        with allure.step('Проход заявки на задачу "Подписать договор с клиентом"'):
+        with allure.step('Задача "Подписание"'):
             with allure.step('Вложить все документы'):
                 base_page = BasePage(driver)
                 self.click_generate_documents()
@@ -63,6 +63,3 @@ class SignAgreementClient(BasePage):
         self.element_is_clickable(*SignAgreementClientLocators.BUTTON_NEXT)
         button_next = self.find_element(*SignAgreementClientLocators.BUTTON_NEXT)
         button_next.click()
-
-
-

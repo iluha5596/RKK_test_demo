@@ -16,7 +16,7 @@ class ShortFormPage(BasePage):
 
     def fill_required_fields_short_form(self, driver):
         # Заполнить обязательные поля и отправить заявку далее по процессу
-        with allure.step('Проход заявки на задачу "Короткая анкета"'):
+        with allure.step('Задача "Короткая анкета"'):
             with allure.step('Заполнение обязательных полей на короткой форме'):
                 self.filling_short_form()
                 self.generate_documents()
@@ -24,7 +24,7 @@ class ShortFormPage(BasePage):
                 base_page = BasePage(driver)
                 base_page.close_new_window()
                 self.attach_client_consent_file()
-            with allure.step('Отправить заявку далее по процссу с короткой анкеты'):
+            with allure.step('Отправить заявку далее по процссу'):
                 self.next_form()
 
     def filling_short_form(self):

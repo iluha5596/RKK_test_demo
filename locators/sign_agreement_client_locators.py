@@ -8,6 +8,7 @@ class SignAgreementClientLocators:
     INPUT_DOCUMENTS = (By.XPATH, '//input[@type="file"]')
     REMOVE_EVERYTHING = (By.XPATH, '//span[text()="Снять все"]')
     DOCUMENT_CHECKBOX = (By.XPATH, '(//div[@class="p-checkbox-box p-component"])[1]')
-    LOAN_AGREEMENT_SIGNED = (By.XPATH, '//label[text()="Кредитный договор подписан"]/..//span[@class="p-radiobutton-icon p-c"]')
+    LOAN_AGREEMENT_SIGNED = (
+    By.XPATH, '//label[text()="Кредитный договор подписан"]/..//span[@class="p-radiobutton-icon p-c"]')
     ADDED_DOCUMENTS = (By.XPATH, '//div[@class="p-buttonset"]')
     BUTTON_NEXT = (By.XPATH, '//button[@field-code="button_tPyELAEv"]')
